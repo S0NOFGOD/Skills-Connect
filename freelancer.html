@@ -9,11 +9,13 @@
     
 <style>    
 * {margin:0;padding:0;box-sizing:border-box;font-family:'Montserrat',sans-serif;}    
+
 body {    
   min-height:100vh;    
   background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);    
-  display:flex;align-items:center;justify-content:center;color:#fff;position:relative;    
+  display:flex;align-items:center;justify-content:center;color:#fff;    
 }    
+
 .container{    
   width:95%;max-width:500px;    
   background:rgba(255,255,255,0.08);    
@@ -21,274 +23,330 @@ body {
   border-radius:20px;    
   padding:30px;    
   box-shadow:0 25px 60px rgba(0,0,0,0.4);    
-  animation:fadeIn 1s ease;    
 }    
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}    
-h1{text-align:center;font-weight:700;margin-bottom:10px;}    
+
+h1{text-align:center;margin-bottom:10px;}    
 p{text-align:center;font-size:14px;opacity:0.85;margin-bottom:25px;}    
-input,select,button{width:100%;padding:14px;margin-bottom:15px;border-radius:12px;border:none;outline:none;font-size:14px;}    
-input,select{background:rgba(255,255,255,0.15);color:#fff;}    
-select option{color:#000;}    
-button{background:linear-gradient(135deg,#00c6ff,#0072ff);color:#fff;font-weight:600;cursor:pointer;transition:0.3s ease;}    
-button:hover{transform:scale(1.03);}    
+
+input,button{    
+  width:100%;    
+  padding:14px;    
+  margin-bottom:12px;    
+  border-radius:12px;    
+  border:none;    
+  outline:none;    
+  font-size:14px;    
+}    
+
+input{    
+  background:rgba(255,255,255,0.15);    
+  color:#fff;    
+}    
+
+button{    
+  background:linear-gradient(135deg,#00c6ff,#0072ff);    
+  color:#fff;    
+  font-weight:600;    
+  cursor:pointer;    
+}    
+
+button:disabled{    
+  opacity:0.6;    
+  cursor:not-allowed;    
+}    
+
 .tabs{display:flex;justify-content:space-around;margin-bottom:20px;}    
-.tab{padding:10px 20px;cursor:pointer;border-radius:12px;transition:0.3s ease;}    
-.tab.active{background:linear-gradient(135deg,#00c6ff,#0072ff);font-weight:700;}    
-.form-section{display:none;flex-direction:column;}    
-.form-section.active{display:flex;}    
-.error{color:#ff4b5c;font-size:12px;margin-bottom:10px;}    
-.password-wrapper{position:relative;width:100%;}    
+.tab{padding:10px 20px;cursor:pointer;border-radius:12px;}    
+.tab.active{background:linear-gradient(135deg,#00c6ff,#0072ff);}    
+
+.form-section{display:none;}    
+.form-section.active{display:flex;flex-direction:column;}    
+
+.error{color:#ff4b5c;font-size:13px;margin-bottom:10px;text-align:center;}    
+.success{color:#00ffae;font-size:13px;margin-bottom:10px;text-align:center;}    
+
+.password-wrapper{position:relative;}    
 .password-wrapper input{padding-right:40px;}    
-.password-wrapper .toggle-password{position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:18px;color:#fff;opacity:0.7;user-select:none;}    
-.password-wrapper .toggle-password:hover{opacity:1;}    
-#get-location-btn{background:linear-gradient(135deg,#ffb347,#ffcc33);color:#000;font-weight:600;cursor:pointer;margin-bottom:15px;}    
+
+.toggle-password{    
+  position:absolute;    
+  right:12px;    
+  top:50%;    
+  transform:translateY(-50%);    
+  cursor:pointer;    
+}    
+
 </style>    
 </head>    
 <body>    
     
-<div class="container" id="auth-container">    
-  <h1>Welcome to SkillConnect</h1>    
-  <p>Sign up or log in to find clients near you</p>    
-    
-  <div class="tabs">    
-    <div class="tab active" id="login-tab">Login</div>    
-    <div class="tab" id="signup-tab">Signup</div>    
-  </div>    
-    
-  <!-- LOGIN FORM -->    
-  <div class="form-section active" id="login">    
-    
-    <div class="error" id="login-error"></div>    
-    
-    <input type="email" id="login-email" placeholder="Email" required />    
-    
-    <div class="password-wrapper">    
-      <input type="password" id="login-password" placeholder="Password" required />    
-      <span class="toggle-password" data-target="login-password">👁️</span>    
-    </div>    
-    
-    <button id="login-btn">Login</button>    
-    
-    <button id="forgot-btn" style="background:linear-gradient(135deg,#ff6a00,#ee0979);margin-top:5px;">Forgot Password?</button>    
-    
-    <div id="forgot-email-container" style="display:none;flex-direction:column;">    
-      <input type="email" id="forgot-email" placeholder="Enter your email to reset password" />    
-      
-      <button id="send-reset-btn" style="background:linear-gradient(135deg,#ff99cc,#ff3399);">
-        Send Reset Code
-      </button>    
-    </div>    
-    
-    <div id="reset-password-container" style="display:none;flex-direction:column;">    
-    
-      <input type="text" id="reset-code" placeholder="Enter code received" />    
-    
-      <div class="password-wrapper">    
-        <input type="password" id="new-password" placeholder="New Password" />    
-        <span class="toggle-password" data-target="new-password">👁️</span>    
-      </div>    
-    
-      <div class="password-wrapper">    
-        <input type="password" id="confirm-new-password" placeholder="Confirm Password" />    
-        <span class="toggle-password" data-target="confirm-new-password">👁️</span>    
-      </div>    
-    
-      <button id="reset-password-btn" style="background:linear-gradient(135deg,#33ccff,#0066ff);">Reset Password</button>    
-    
-    </div>    
-    
-  </div>    
-    
-    
-  <!-- SIGNUP FORM (NEW) -->
-  <div class="form-section" id="signup">
+<div class="container">    
 
-    <input type="text" id="signup-name" placeholder="Full Name" required />
+<h1>Welcome to SkillConnect</h1>    
+<p>Login or reset your password</p>    
 
-    <input type="email" id="signup-email" placeholder="Email" required />
+<div class="tabs">    
+<div class="tab active" id="login-tab">Login</div>    
+<div class="tab" id="signup-tab">Signup</div>    
+</div>    
 
-    <input type="tel" id="signup-phone" placeholder="Phone Number" required />
+<!-- LOGIN -->
+<div class="form-section active" id="login">    
 
-    <button type="button" id="get-location-btn">Find My Location</button>
+<div class="error" id="login-error"></div>    
+<div class="success" id="login-success"></div>    
 
-    <input type="text" id="signup-location" placeholder="Location" readonly />
+<input type="email" id="login-email" placeholder="Email">    
 
-    <div class="password-wrapper">
-      <input type="password" id="signup-password" placeholder="Password" required />
-      <span class="toggle-password" data-target="signup-password">👁️</span>
-    </div>
+<div class="password-wrapper">    
+<input type="password" id="login-password" placeholder="Password">    
+<span class="toggle-password" data-target="login-password">👁️</span>    
+</div>    
 
-    <div class="password-wrapper">
-      <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required />
-      <span class="toggle-password" data-target="signup-confirm-password">👁️</span>
-    </div>
+<button id="login-btn">Login</button>    
 
-    <button id="signup-btn">Create Account</button>
+<button id="forgot-btn" style="background:linear-gradient(135deg,#ff6a00,#ee0979)">Forgot Password?</button>    
 
-  </div>
+<!-- FORGOT EMAIL -->
+<div id="forgot-email-container" style="display:none;">    
+
+<div class="error" id="forgot-error"></div>    
+<div class="success" id="forgot-success"></div>    
+
+<input type="email" id="forgot-email" placeholder="Enter your email">    
+
+<button id="send-reset-btn" style="background:linear-gradient(135deg,#ff99cc,#ff3399)">    
+Send Reset Code    
+</button>    
 
 </div>    
-    
-<script>    
-    
-const BACKEND_URL = "https://skillconnect-backend-uv3z.onrender.com";    
-    
-// PASSWORD TOGGLE    
-document.addEventListener('click', e=>{    
-  if(e.target.classList.contains('toggle-password')){    
-    const input=document.getElementById(e.target.dataset.target);    
-    input.type=input.type==='password'?'text':'password';    
-  }    
-});    
-    
-// TAB SWITCH    
-function switchTab(tab){    
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));    
-  document.querySelectorAll('.form-section').forEach(f=>f.classList.remove('active'));    
-    
-  document.getElementById(tab).classList.add('active');    
-  document.getElementById(tab+'-tab').classList.add('active');    
-    
-  document.getElementById('forgot-email-container').style.display='none';    
-  document.getElementById('reset-password-container').style.display='none';    
-}    
-    
-document.getElementById('login-tab').addEventListener('click',()=>switchTab('login'));    
-document.getElementById('signup-tab').addEventListener('click',()=>switchTab('signup'));    
-    
-    
-// LOCATION FINDER    
-document.getElementById("get-location-btn").addEventListener("click",()=>{
 
-  const btn=document.getElementById("get-location-btn");
-  const field=document.getElementById("signup-location");
+<!-- RESET PASSWORD -->
+<div id="reset-password-container" style="display:none;">    
 
-  if(!navigator.geolocation){
-    alert("Geolocation not supported");
-    return;
-  }
+<div class="error" id="reset-error"></div>    
+<div class="success" id="reset-success"></div>    
 
-  btn.innerText="Loading... Hold on while fetching coordinates";
+<input type="text" id="reset-code" placeholder="Enter reset code">    
 
-  navigator.geolocation.getCurrentPosition(async position=>{
+<div class="password-wrapper">    
+<input type="password" id="new-password" placeholder="New password">    
+<span class="toggle-password" data-target="new-password">👁️</span>    
+</div>    
 
-    const lat=position.coords.latitude;
-    const lon=position.coords.longitude;
+<div class="password-wrapper">    
+<input type="password" id="confirm-new-password" placeholder="Confirm password">    
+<span class="toggle-password" data-target="confirm-new-password">👁️</span>    
+</div>    
 
-    try{
+<button id="reset-password-btn">Reset Password</button>    
 
-      const res=await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+</div>    
 
-      const data=await res.json();
+</div>    
 
-      const city=data.address.city || data.address.town || data.address.village || "";
-      const state=data.address.state || "";
+</div>    
 
-      field.value=`${city}, ${state}`;
+<script>
 
-      btn.innerText="Location Found ✓";
+const BACKEND_URL="https://skillconnect-backend-uv3z.onrender.com";
 
-    }catch{
 
-      btn.innerText="Failed. Try again";
+// EMAIL VALIDATOR
+function validEmail(email){
 
-    }
+return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  },()=>{
-    btn.innerText="Permission denied";
-  });
+}
+
+
+// PASSWORD VALIDATOR
+function validPassword(password){
+
+return password.length>=6;
+
+}
+
+
+// PASSWORD TOGGLE
+document.addEventListener("click",(e)=>{
+
+if(e.target.classList.contains("toggle-password")){
+
+const input=document.getElementById(e.target.dataset.target);
+
+input.type=input.type==="password"?"text":"password";
+
+}
 
 });
-    
-    
-// SHOW EMAIL INPUT    
-document.getElementById('forgot-btn').addEventListener('click',()=>{    
-  document.getElementById('forgot-email-container').style.display='flex';    
-});    
-    
-    
-// SEND RESET CODE    
-document.getElementById('send-reset-btn').addEventListener('click', async ()=>{    
-    
-  const email=document.getElementById('forgot-email').value.trim();    
-    
-  if(!email){    
-    alert("Please enter your email");    
-    return;    
-  }    
-    
-  try{    
-    
-    const res=await fetch(`${BACKEND_URL}/forgot-password`,{    
-      method:"POST",    
-      headers:{"Content-Type":"application/json"},    
-      body:JSON.stringify({email})    
-    });    
-    
-    const data=await res.json();    
-    
-    if(!res.ok){    
-      alert(data.message || "Failed to send reset code");    
-      return;    
-    }    
-    
-    alert("Reset code sent successfully to your email");    
-    
-    document.getElementById('reset-password-container').style.display='flex';    
-    
-  }    
-    
-  catch(err){    
-    alert("Server error. Try again.");    
-  }    
-    
-});    
-    
-    
-// RESET PASSWORD    
-document.getElementById('reset-password-btn').addEventListener('click', async ()=>{    
-    
-  const email=document.getElementById('forgot-email').value.trim();    
-  const code=document.getElementById('reset-code').value.trim();    
-  const newPassword=document.getElementById('new-password').value.trim();    
-  const confirmPassword=document.getElementById('confirm-new-password').value.trim();    
-    
-  if(!email||!code||!newPassword||!confirmPassword){    
-    alert("All fields required");    
-    return;    
-  }    
-    
-  if(newPassword!==confirmPassword){    
-    alert("Passwords do not match");    
-    return;    
-  }    
-    
-  try{    
-    
-    const res=await fetch(`${BACKEND_URL}/reset-password`,{    
-      method:"POST",    
-      headers:{"Content-Type":"application/json"},    
-      body:JSON.stringify({email,code,newPassword})    
-    });    
-    
-    const data=await res.json();    
-    
-    if(!res.ok){    
-      alert(data.message||"Reset failed");    
-      return;    
-    }    
-    
-    alert("Password reset successful");    
-    
-  }    
-    
-  catch(err){    
-    alert("Error resetting password");    
-  }    
-    
-});    
-    
-</script>    
-    
-</body>    
-        </html>
+
+
+// TAB SWITCH
+function switchTab(tab){
+
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+document.querySelectorAll(".form-section").forEach(f=>f.classList.remove("active"));
+
+document.getElementById(tab).classList.add("active");
+document.getElementById(tab+"-tab").classList.add("active");
+
+}
+
+login-tab.onclick=()=>switchTab("login");
+signup-tab.onclick=()=>switchTab("signup");
+
+
+// SHOW FORGOT EMAIL
+forgot-btn.onclick=()=>{
+
+forgot-email-container.style.display="flex";
+
+};
+
+
+// SEND RESET CODE
+send-reset-btn.onclick=async ()=>{
+
+const email=forgot-email.value.trim();
+
+forgot-error.innerText="";
+forgot-success.innerText="";
+
+if(!email){
+
+forgot-error.innerText="Email is required";
+return;
+
+}
+
+if(!validEmail(email)){
+
+forgot-error.innerText="Enter valid email";
+return;
+
+}
+
+send-reset-btn.disabled=true;
+send-reset-btn.innerText="Sending...";
+
+try{
+
+const res=await fetch(`${BACKEND_URL}/forgot-password`,{
+
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({email})
+
+});
+
+const data=await res.json();
+
+if(!res.ok){
+
+forgot-error.innerText=data.message || "Failed to send code";
+send-reset-btn.disabled=false;
+send-reset-btn.innerText="Send Reset Code";
+return;
+
+}
+
+forgot-success.innerText="Reset code sent to your email";
+
+reset-password-container.style.display="flex";
+
+send-reset-btn.innerText="Code Sent ✓";
+
+}catch{
+
+forgot-error.innerText="Server error. Try again.";
+
+send-reset-btn.disabled=false;
+send-reset-btn.innerText="Send Reset Code";
+
+}
+
+};
+
+
+// RESET PASSWORD
+reset-password-btn.onclick=async ()=>{
+
+const email=forgot-email.value.trim();
+const code=reset-code.value.trim();
+const password=new-password.value.trim();
+const confirm=confirm-new-password.value.trim();
+
+reset-error.innerText="";
+reset-success.innerText="";
+
+if(!email||!code||!password||!confirm){
+
+reset-error.innerText="All fields required";
+return;
+
+}
+
+if(!validPassword(password)){
+
+reset-error.innerText="Password must be at least 6 characters";
+return;
+
+}
+
+if(password!==confirm){
+
+reset-error.innerText="Passwords do not match";
+return;
+
+}
+
+reset-password-btn.disabled=true;
+reset-password-btn.innerText="Resetting...";
+
+try{
+
+const res=await fetch(`${BACKEND_URL}/reset-password`,{
+
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+
+email,
+code,
+newPassword:password
+
+})
+
+});
+
+const data=await res.json();
+
+if(!res.ok){
+
+reset-error.innerText=data.message || "Reset failed";
+reset-password-btn.disabled=false;
+reset-password-btn.innerText="Reset Password";
+return;
+
+}
+
+reset-success.innerText="Password reset successful";
+
+reset-password-btn.innerText="Success ✓";
+
+}catch{
+
+reset-error.innerText="Server error";
+
+reset-password-btn.disabled=false;
+reset-password-btn.innerText="Reset Password";
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
