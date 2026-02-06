@@ -221,8 +221,16 @@
 </div>
 
 <script>  
-  // Load user data
-  const user = JSON.parse(localStorage.getItem('user')) || {};  
+  // Load user data from localStorage
+  let user = JSON.parse(localStorage.getItem('user')) || {
+    name: "Destiny Okpone",
+    skill: "Founder / Developer",
+    email: "destiny@skillconnect.com",
+    projects: 5,
+    ratings: 10,
+    image: "https://via.placeholder.com/130",
+    phone: "+2348012345678"
+  };
 
   const userName = document.getElementById('userName');
   const userSkill = document.getElementById('userSkill');
@@ -265,7 +273,6 @@
     const email = document.getElementById('editEmail').value.trim();
     const phone = document.getElementById('editPhone').value.trim();
 
-    // Validation
     if(!name){ alert('Name is required'); return; }
     if(!skill){ alert('Skill is required'); return; }
     if(!email || !/^\S+@\S+\.\S+$/.test(email)){ alert('Valid email is required'); return; }
